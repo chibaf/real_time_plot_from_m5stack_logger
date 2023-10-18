@@ -1,16 +1,19 @@
-import ADS1256
 import time
 import matplotlib.pyplot as plt
+import serial
+import sys
 
-from read_shield_class import Shield
+from read_m5_class import m5logger
 
-data0=[0]*8
+data0=[0]*10
 data=[data0]*10
-shield=Shield()
+ser = serial.Serial(sys.argv[2],sys.argv[1])
+shield=m5logger()
+
 while True:
   try:
-    array=shield.read_shield()
-    if len(array)==8:
+    array=shield.read_logger(ser)
+    if len(array)==10:
       data.pop(-1)
       data.insert(0,array)
       rez = [[data[j][i] for j in range(len(data))] for i in range(len(data[0]))]
@@ -24,8 +27,11 @@ while True:
       plt.plot(x,rez[5])
       plt.plot(x,rez[6])
       plt.plot(x,rez[7])
+      plt.plot(x,rez[8])
+      plt.plot(x,rez[9])
       plt.pause(0.1)
   except KeyboardInterrupt:
     print ('exiting')
     break
+ser.close()
 exit()
