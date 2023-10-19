@@ -6,12 +6,13 @@ from read_m5_class import m5logger
 
 data0=[0]*10
 data=[data0]*10
+
 ser = serial.Serial(sys.argv[2],sys.argv[1])
-shield=m5logger()
+sport=m5logger()
 
 while True:
   try:
-    array=shield.read_logger(ser)
+    array=sport.read_logger(ser)
     if len(array)==10:
       data.pop(-1)
       data.insert(0,array)
